@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .movie-card {
+            margin-bottom: 20px;
+        }
+        .movie-card img {
+            width: 100%;
+            height: auto;
+        }
+        .card-title {
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <a class="btn btn-info" href="/add_movie">Add movie</a>
+    <div class="row">
+        <div class="col-12">
+            <h1>Movies</h1>
+            <div class="row">
+                <!-- Loop through the list of movies -->
+                <div class="col-md-4 movie-card" th:each="movie : ${movies}">
+                    <div class="card">
+                        <img th:src="${movie.poster}" class="card-img-top" alt="Movie Poster">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${movie.title}">Movie Title</h5>
+                            <p class="card-text" th:text="'Director: ' + ${movie.director}">Director: Director Name</p>
+                            <p class="card-text" th:text="'IMDB Rating: ' + ${movie.imdbRating}">IMDB Rating: 9.3</p>
+                            <p class="card-text" th:text="'Metascore: ' + ${movie.metascore}">Metascore: 82</p>
+                            <p class="card-text">
+                                Genres:
+                                <span th:text="${movie.genres}">Genre</span>
+                            </p>
+
+                            <form th:method="post" th:action="@{'/movies/delete/{id}' (id=${movie.getId()})}">
+                            <button class="btn btn-danger">Delete</button></form>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End of movie loop -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
