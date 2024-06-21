@@ -11,6 +11,8 @@ services:
       MYSQL_PASSWORD: Test1!
     ports:
       - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
 
   movie-app:
     build: .
