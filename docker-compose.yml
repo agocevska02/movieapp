@@ -7,8 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Test1!
       MYSQL_DATABASE: movie_db1
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Test1!
     ports:
       - "3306:3306"
     volumes:
@@ -21,8 +19,6 @@ services:
     ports:
       - "9091:9091"
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Test1!
-      MYSQL_DATABASE: movie_db1
-      MYSQL_HOST: mysql-db
-
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/movie_db1
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Test1!
