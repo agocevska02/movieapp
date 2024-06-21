@@ -22,3 +22,4 @@ services:
       MYSQL_PASSWORD: Test1!
       MYSQL_DATABASE: movie_db1
       MYSQL_HOST: mysql-db
+
