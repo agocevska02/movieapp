@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# MySQL data directory
+mysql-data/mysql.sock
+mysql-data/*.cnf
+mysql-data/*.pid
+mysql-data/*.err
