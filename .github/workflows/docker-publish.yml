@@ -1,4 +1,4 @@
-name: Docker Publish
+name: Build and push image
 
 on:
   push:
@@ -8,19 +8,31 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      IMAGE_NAME: "agocevska/movieapp"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Build and push Docker image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: |
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            -t $DOCKERHUB_USERNAME/movieapp:latest \
-            --push .
+      - name: Build backend with Maven
+        run: mvn clean package -Dmaven.test.skip=true
+        working-directory: .
+
+      - name: Log in to Docker Hub
+        run: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+
+      - name: Build and tag backend Docker image
+        run: docker build -t $IMAGE_NAME:latest .
+
+      - name: Push backend Docker image
+        run: docker push $IMAGE_NAME:latest
