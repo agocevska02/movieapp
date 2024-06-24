@@ -1,19 +1,20 @@
-# Build stage
+# Use Maven to build the application
 FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
 COPY ./pom.xml /app
 COPY ./src /app/src
 RUN mvn clean package -Dmaven.test.skip=true
 
-# Run stage
+# Use OpenJDK for running the application
 FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
-# Install MySQL client
-RUN apk update && apk add mysql-client
+# Install PostgreSQL client
+RUN apk update && apk add postgresql-client
 
 COPY --from=build /app/target/*.jar app.jar
-COPY wait-for-mysql.sh /wait-for-mysql.sh
-RUN chmod +x /wait-for-mysql.sh
-EXPOSE 9091
-ENTRYPOINT ["/wait-for-mysql.sh", "mysql-db", "java", "-jar", "app.jar"]
+COPY wait-for-postgres.sh /wait-for-postgres.sh
+RUN chmod +x /wait-for-postgres.sh
+
+EXPOSE 8080
+ENTRYPOINT ["/wait-for-postgres.sh", "movie-db", "java", "-jar", "app.jar"]
