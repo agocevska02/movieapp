@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: spring-boot-app
-        image: agoevska/movieapp:latest
+        image: agocevska/movieapp:latest
         ports:
         - containerPort: 8080
         env:
