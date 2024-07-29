@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: movie-app
+data:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://movie-db:5432/movieapp
+  SPRING_DATASOURCE_USERNAME: postgres
