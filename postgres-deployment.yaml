@@ -19,8 +19,8 @@ spec:
         ports:
         - containerPort: 5432
         envFrom:
-        - configMapRef:
-            name: postgres-config
+        - secretRef:
+            name: postgres-secret
         volumeMounts:
         - name: postgres-storage
           mountPath: /var/lib/postgresql/data
@@ -28,3 +28,15 @@ spec:
       - name: postgres-storage
         persistentVolumeClaim:
           claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-db
+  namespace: movie-app
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres-db
