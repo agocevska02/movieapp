@@ -6,4 +6,3 @@ metadata:
 data:
   SPRING_DATASOURCE_URL: jdbc:postgresql://movie-db:5432/movieapp
   SPRING_DATASOURCE_USERNAME: postgres
-  SPRING_DATASOURCE_PASSWORD: Test1!
